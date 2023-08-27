@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+
+   db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${PG_DB}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    restart: always
+    volumes:
+      - ./initdb/init-notes.sql:/docker-entrypoint-initdb.d/init-notes.sql
+    ports:
+      - "54344:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
