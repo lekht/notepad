@@ -22,6 +22,7 @@ func New(pg *postgres.PostgreDB) *NotesRepository {
 	return &NotesRepository{pg}
 }
 
+// Метод создания новой записи в базе данных
 func (nr *NotesRepository) CreateNote(ctx context.Context, note models.Note) error {
 	_, err := nr.Pool.Exec(ctx, sqlAddNote, note.Title, note.Body, note.UserId, note.CreatedAt)
 	if err != nil {
@@ -31,6 +32,7 @@ func (nr *NotesRepository) CreateNote(ctx context.Context, note models.Note) err
 	return nil
 }
 
+// Метод получения строк из базы данных
 func (nr *NotesRepository) GetNotes(ctx context.Context, userId int) ([]models.Note, error) {
 	rows, err := nr.Pool.Query(ctx, sqlGetNotes, userId)
 	if err != nil {

@@ -1,7 +1,9 @@
-curl -i -H "Content-Type: application/json" -H "X-Token: dskc90832hcusad9" -H "UserID: 10" -d '{"title":"Сходить в магазин","body":"Купить хлеб, масло и молоко"}' -X POST http://localhost:8088/notepad && echo
-
 curl -i -H "Content-Type: application/json" -H "X-Token: dskc90832hcusad9" -H "UserID: 10" -d '{"title":"Сходить в магазин","body":"Купит хлеб, масло и малоко"}' -X POST http://localhost:8088/notepad && echo
 
-curl -i -H "X-Token: dskc90832hcusad9" -H "UserID: 10" -X GET http://localhost:8088/notepad && echo
+curl -i -H "Content-Type: application/json" -H "X-Token: dskc90832hcusad9" -H "UserID: 10" -d '{"title":"Сходить в магазин","body":"Купить хлеб, масло и молоко"}' -X POST http://localhost:8088/notepad && echo
+
+curl -i -H "Content-Type: application/json" -H "X-Token: dskc90832hcusad9" -H "UserID: 10" -d '{"title":"Сходить в магазин","body":"купить овощей"}' -X POST http://localhost:8088/notepad && echo
 
 curl -i -H "X-Token: wrongtoken" -H "UserID: 10" -X GET http://localhost:8088/notepad && echo
+
+curl -i -H "X-Token: dskc90832hcusad9" -H "UserID: 10" -X GET http://localhost:8088/notepad && echo

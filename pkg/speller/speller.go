@@ -40,13 +40,6 @@ func New(cfg *config.Speller) *SpellChecker {
 	}
 }
 
-type SpellRequest struct {
-	Text    string `json:"text"`
-	Lang    string `json:"lang"`
-	Options string `json:"options"`
-	Format  string `json:"format"`
-}
-
 type Mistakes struct {
 	Code int      `json:"code"`
 	Pos  int      `json:"pos"`
@@ -57,21 +50,21 @@ type Mistakes struct {
 	S    []string `json:"s"`
 }
 
+// Метод проверки текста на орфографические ошибки
 func (sc *SpellChecker) Check(title, body string) (bool, error) {
 	if len(sc.languages) < 1 {
 		return false, errors.New("language not specified")
 	}
-
 	language := sc.languages[0]
-
 	if len(sc.languages) > 1 {
 		for i := 1; i < len(sc.languages); i++ {
 			language += fmt.Sprintf(",%s", sc.languages[i])
 		}
 	}
-	text := title + " " + body
+	text := title + "+" + body
 	newText := strings.ReplaceAll(text, " ", "+")
 
+	// post запрос к сервису проверки текста на орфографические ошибки
 	resp, err := http.PostForm(sc.address, url.Values{
 		"text":    {newText},
 		"lang":    {language},

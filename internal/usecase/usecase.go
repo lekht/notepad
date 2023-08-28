@@ -23,7 +23,9 @@ func New(nr NotepadRepository, a Authenticator, s Speller) *NotepadUsecase {
 	}
 }
 
+// Метод создания новой заметки с авторизацией пользователя и проверкой на текста на орфографию
 func (nu *NotepadUsecase) NewNote(n models.Note, token string) error {
+	// авторизация пользователя
 	storedToken, err := nu.auth.Authorization(n.UserId)
 	if err != nil {
 		return errors.Wrap(err, "failed to authorize user")
@@ -32,6 +34,7 @@ func (nu *NotepadUsecase) NewNote(n models.Note, token string) error {
 		return auth.ErrNoUser
 	}
 
+	// проверка на орфографические ошибки
 	ok, err := nu.spell.Check(n.Title, n.Body)
 	if err != nil {
 		return errors.Wrap(err, "failed to check text for spellig")
@@ -40,6 +43,7 @@ func (nu *NotepadUsecase) NewNote(n models.Note, token string) error {
 		return speller.ErrSpelling
 	}
 
+	// создание новой заметки в бд
 	err = nu.repo.CreateNote(context.Background(), n)
 	if err != nil {
 		return errors.Wrap(err, "failed to create note")
@@ -48,7 +52,9 @@ func (nu *NotepadUsecase) NewNote(n models.Note, token string) error {
 	return nil
 }
 
+// Метод получения заметок пользователя с предварительной авторизацией
 func (nu *NotepadUsecase) Notes(userId int, token string) ([]models.Note, error) {
+	// авторизация пользователя
 	storedToken, err := nu.auth.Authorization(userId)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to authorize user")
@@ -58,6 +64,7 @@ func (nu *NotepadUsecase) Notes(userId int, token string) ([]models.Note, error)
 		return nil, auth.ErrNoUser
 	}
 
+	// получение заметок пользователя из бд
 	notes, err := nu.repo.GetNotes(context.Background(), userId)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get notes from db")

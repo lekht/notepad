@@ -4,6 +4,7 @@ import "errors"
 
 var ErrNoUser = errors.New("this user does not exist")
 
+// Заглушка вместо redis
 type DummyRedis map[int]string
 
 func New() DummyRedis {
@@ -14,6 +15,7 @@ func New() DummyRedis {
 	return dRedis
 }
 
+// Метод выполняет авторизацию пользователя
 func (dr DummyRedis) Authorization(id int) (string, error) {
 	token, ok := dr[id]
 	if !ok {

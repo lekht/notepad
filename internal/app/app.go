@@ -30,8 +30,6 @@ func Run(cfg *config.Config) {
 
 	s := speller.New(&cfg.Speller)
 
-	_ = s
-
 	u := usecase.New(r, a, s)
 
 	router := controllers.NewRouter(u, l)

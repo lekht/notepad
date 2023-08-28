@@ -29,6 +29,7 @@ func newNotepadRoutes(r *mux.Router, u Usecase, l Logger) {
 	r.HandleFunc("/notepad", nr.newNote).Methods(http.MethodPost)
 }
 
+// Обработка запроса создания новой заметки
 func (nr *notepadRoutes) newNote(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("X-Token")
 	userId := r.Header.Get("UserID")
@@ -69,6 +70,7 @@ func (nr *notepadRoutes) newNote(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// Обработчик запроса получения заметок пользователя
 func (nr *notepadRoutes) getNotes(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("X-Token")
 	userId := r.Header.Get("UserID")
