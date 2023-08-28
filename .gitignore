@@ -1,2 +1,2 @@
 *.text
-/logs/all.log
+*.log
